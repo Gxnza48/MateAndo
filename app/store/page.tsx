@@ -436,7 +436,7 @@ export default function StorePage() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-80 p-4">
-                  <FilterContent />
+                  <StoreFilters {...filterProps} />
                 </DropdownMenuContent>
               </DropdownMenu>
 
