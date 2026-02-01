@@ -430,10 +430,10 @@ export default function StorePage() {
 interface StoreFiltersProps {
   selectedCategory: string | null
   setSelectedCategory: (val: string | null) => void
-  uniqueCategories: string[]
+  uniqueCategories: (string | null)[]
   selectedMaterial: string | null
   setSelectedMaterial: (val: string | null) => void
-  uniqueMaterials: string[]
+  uniqueMaterials: (string | null)[]
   priceRange: [number, number]
   setPriceRange: (val: [number, number]) => void
   maxPrice: number
