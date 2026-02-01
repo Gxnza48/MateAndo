@@ -16,28 +16,15 @@ const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" })
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" })
 
 export const metadata: Metadata = {
-  title: "MateAR - Premium Argentinian Mate Products",
+  title: "Paraiso Matero | Productos Premium",
   description:
     "Discover the Argentinian mate experience with premium quality products, modern design and artisanal tradition. Mates, bombillas, thermos and yerba mate.",
   keywords: ["mate", "argentina", "yerba mate", "bombilla", "termo", "artesanal"],
-  authors: [{ name: "Gonza_Bonadeo", url: "https://github.com/Gxnza48" }],
-  generator: "v0.app",
+  authors: [{ name: "Gonzalo Bonadeo", url: "https://github.com/Gxnza48" }],
+  generator: "Next.js",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
+    icon: "/icon.png",
+    apple: "/icon.png",
   },
 }
 

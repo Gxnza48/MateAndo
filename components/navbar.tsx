@@ -28,9 +28,9 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
-            <span className="font-serif text-lg font-bold text-primary-foreground">M</span>
+            <span className="font-serif text-lg font-bold text-primary-foreground">P</span>
           </div>
-          <span className="font-serif text-xl font-bold text-foreground">MateAR</span>
+          <span className="font-serif text-xl font-bold text-foreground">Paraiso Matero</span>
         </Link>
 
         {/* Desktop Nav */}

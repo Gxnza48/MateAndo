@@ -301,40 +301,30 @@ export default function StorePage() {
           {t("store.filter.price")} (ARS)
         </h3>
         <div className="flex items-center gap-4">
-          <Slider
-            defaultValue={[1, maxPrice]}
-            min={1}
-            max={maxPrice}
-            step={100}
-            value={priceRange}
-            onValueChange={(val) => setPriceRange(val as [number, number])}
-            className="py-4"
-          />
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-muted-foreground">Min</span>
-              <Input
-                type="number"
-                value={priceRange[0]}
-                onChange={(e) =>
-                  setPriceRange([Number(e.target.value), priceRange[1]])
-                }
-                className="w-24 h-8"
-                placeholder="1"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-muted-foreground">Max</span>
-              <Input
-                type="number"
-                value={priceRange[1]}
-                onChange={(e) =>
-                  setPriceRange([priceRange[0], Number(e.target.value)])
-                }
-                className="w-24 h-8"
-                placeholder={maxPrice.toString()}
-              />
-            </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-muted-foreground">Min</span>
+            <Input
+              type="number"
+              value={priceRange[0] === 0 ? "" : priceRange[0]}
+              onChange={(e) =>
+                setPriceRange([Number(e.target.value), priceRange[1]])
+              }
+              className="w-24"
+              placeholder="Min"
+            />
+          </div>
+          <span className="text-muted-foreground mt-5">-</span>
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-muted-foreground">Max</span>
+            <Input
+              type="number"
+              value={priceRange[1]}
+              onChange={(e) =>
+                setPriceRange([priceRange[0], Number(e.target.value)])
+              }
+              className="w-24"
+              placeholder={maxPrice.toString()}
+            />
           </div>
         </div>
       </div>
