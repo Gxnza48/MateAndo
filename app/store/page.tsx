@@ -516,10 +516,10 @@ function StoreFilters({
           <div className="flex flex-col gap-1">
             <span className="text-xs text-muted-foreground">Min</span>
             <Input
-              type="number"
+              type="text"
               value={priceRange[0] === 0 ? "" : priceRange[0]}
               onChange={(e) =>
-                setPriceRange([Number(e.target.value), priceRange[1]])
+                setPriceRange([Number(e.target.value) || 0, priceRange[1]])
               }
               className="w-24"
               placeholder="Min"
@@ -529,10 +529,10 @@ function StoreFilters({
           <div className="flex flex-col gap-1">
             <span className="text-xs text-muted-foreground">Max</span>
             <Input
-              type="number"
+              type="text"
               value={priceRange[1]}
               onChange={(e) =>
-                setPriceRange([priceRange[0], Number(e.target.value)])
+                setPriceRange([priceRange[0], Number(e.target.value) || 0])
               }
               className="w-24"
               placeholder={maxPrice.toString()}
