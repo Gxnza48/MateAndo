@@ -452,7 +452,7 @@ export default function StorePage() {
                     <SheetTitle>Filtros</SheetTitle>
                   </SheetHeader>
                   <div className="mt-6">
-                    <FilterContent />
+                    <StoreFilters {...filterProps} />
                   </div>
                 </SheetContent>
               </Sheet>
@@ -502,6 +502,123 @@ export default function StorePage() {
             ))}
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+interface StoreFiltersProps {
+  selectedCategory: string | null
+  setSelectedCategory: (val: string | null) => void
+  uniqueCategories: string[]
+  selectedMaterial: string | null
+  setSelectedMaterial: (val: string | null) => void
+  uniqueMaterials: string[]
+  priceRange: [number, number]
+  setPriceRange: (val: [number, number]) => void
+  maxPrice: number
+}
+
+function StoreFilters({
+  selectedCategory,
+  setSelectedCategory,
+  uniqueCategories,
+  selectedMaterial,
+  setSelectedMaterial,
+  uniqueMaterials,
+  priceRange,
+  setPriceRange,
+  maxPrice,
+}: StoreFiltersProps) {
+  const { t } = useStore()
+  return (
+    <div className="space-y-6">
+      {/* Categories */}
+      <div>
+        <h3 className="mb-3 font-medium text-foreground">
+          {t("store.filter.category")}
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant={selectedCategory === null ? "default" : "outline"}
+            size="sm"
+            onClick={() => setSelectedCategory(null)}
+          >
+            {t("store.filter.all")}
+          </Button>
+          {uniqueCategories.map((cat) => (
+            <Button
+              key={cat}
+              variant={selectedCategory === cat ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory(cat)}
+              className="capitalize"
+            >
+              {cat}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      {/* Materials */}
+      <div>
+        <h3 className="mb-3 font-medium text-foreground">
+          {t("store.filter.material")}
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant={selectedMaterial === null ? "default" : "outline"}
+            size="sm"
+            onClick={() => setSelectedMaterial(null)}
+          >
+            {t("store.filter.all")}
+          </Button>
+          {uniqueMaterials.slice(0, 10).map((mat) => (
+            <Button
+              key={mat}
+              variant={selectedMaterial === mat ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedMaterial(mat)}
+              className="capitalize"
+            >
+              {mat}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      {/* Price Range */}
+      <div>
+        <h3 className="mb-3 font-medium text-foreground">
+          {t("store.filter.price")} (ARS)
+        </h3>
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-muted-foreground">Min</span>
+            <Input
+              type="number"
+              value={priceRange[0] === 0 ? "" : priceRange[0]}
+              onChange={(e) =>
+                setPriceRange([Number(e.target.value), priceRange[1]])
+              }
+              className="w-24"
+              placeholder="Min"
+            />
+          </div>
+          <span className="text-muted-foreground mt-5">-</span>
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-muted-foreground">Max</span>
+            <Input
+              type="number"
+              value={priceRange[1]}
+              onChange={(e) =>
+                setPriceRange([priceRange[0], Number(e.target.value)])
+              }
+              className="w-24"
+              placeholder={maxPrice.toString()}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
