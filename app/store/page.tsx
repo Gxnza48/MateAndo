@@ -230,7 +230,6 @@ export default function StorePage() {
   }
 
   const hasActiveFilters =
-  const hasActiveFilters =
     search || selectedCategory || selectedMaterial || priceRange[0] > 1 || priceRange[1] < maxPrice
 
   const sortOptions: { value: SortOption; label: string }[] = [
