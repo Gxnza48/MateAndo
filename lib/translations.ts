@@ -36,7 +36,7 @@ export const translations = {
   "products.outOfStock": { es: "Sin stock" },
 
   // Store
-  "store.title": { es: "Nuestra Tienda" },
+  "store.title": { es: "Paraiso Matero" },
   "store.search": { es: "Buscar productos..." },
   "store.filter.category": { es: "Categoría" },
   "store.filter.price": { es: "Precio" },

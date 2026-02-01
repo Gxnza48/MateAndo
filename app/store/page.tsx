@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Search, SlidersHorizontal, X, ChevronDown, Loader2, PackageX } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Slider } from "@/components/ui/slider"
 import {
   DropdownMenu,
   DropdownMenuContent,
