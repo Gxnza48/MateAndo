@@ -34,7 +34,7 @@ export function Footer() {
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
                 <span className="font-serif text-lg font-bold text-primary-foreground">M</span>
               </div>
-              <span className="font-serif text-xl font-bold text-foreground">MateAR</span>
+              <span className="font-serif text-xl font-bold text-foreground">Paraiso Matero</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground">
               {t("hero.subtitle")}
@@ -108,11 +108,12 @@ export function Footer() {
               rel="noopener noreferrer"
               className="font-medium text-primary hover:underline"
             >
-              Gonza_Bonadeo
+              Gonzalo Bonadeo
             </a>
+            {" y Simon Marelli"}
           </p>
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} MateAR. {t("footer.rights")}.
+            &copy; {new Date().getFullYear()} Paraiso Matero. {t("footer.rights")}.
           </p>
         </div>
       </div>

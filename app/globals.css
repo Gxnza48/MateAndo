@@ -122,4 +122,19 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-full hover:bg-primary;
+  }
+
+  /* Dark mode specific adjustments if needed (handled by CSS vars in @apply) */
 }

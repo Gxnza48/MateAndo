@@ -37,8 +37,19 @@ export default function StorePage() {
   const [debouncedSearch, setDebouncedSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null)
-  const MAX_PRICE = 100000000 // 100 Million
-  const [priceRange, setPriceRange] = useState<[number, number]>([1, MAX_PRICE])
+  const maxPrice = useMemo(() => {
+    if (products.length === 0) return 100000
+    return Math.max(...products.map((p) => p.price_ars))
+  }, [products])
+
+  const [priceRange, setPriceRange] = useState<[number, number]>([1, 100000]) // Initial safe default
+
+  // Update price range when maxPrice changes (if it was default)
+  useEffect(() => {
+    if (priceRange[1] === 100000 && maxPrice !== 100000) {
+      setPriceRange([1, maxPrice])
+    }
+  }, [maxPrice])
   const [sortBy, setSortBy] = useState<SortOption>("featured")
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
@@ -214,12 +225,13 @@ export default function StorePage() {
     setSearch("")
     setSelectedCategory(null)
     setSelectedMaterial(null)
-    setPriceRange([1, MAX_PRICE])
+    setPriceRange([1, maxPrice])
     setSortBy("featured")
   }
 
   const hasActiveFilters =
-    search || selectedCategory || selectedMaterial || priceRange[0] > 1 || priceRange[1] < MAX_PRICE
+  const hasActiveFilters =
+    search || selectedCategory || selectedMaterial || priceRange[0] > 1 || priceRange[1] < maxPrice
 
   const sortOptions: { value: SortOption; label: string }[] = [
     { value: "featured", label: t("store.sort.featured") },
@@ -290,28 +302,41 @@ export default function StorePage() {
           {t("store.filter.price")} (ARS)
         </h3>
         <div className="flex items-center gap-4">
-          <Input
-            type="number"
-            value={priceRange[0]}
-            onChange={(e) =>
-              setPriceRange([Number(e.target.value), priceRange[1]])
-            }
-            className="w-24"
+          <Slider
+            defaultValue={[1, maxPrice]}
             min={1}
-            max={priceRange[1]}
-            placeholder="1"
+            max={maxPrice}
+            step={100}
+            value={priceRange}
+            onValueChange={(val) => setPriceRange(val as [number, number])}
+            className="py-4"
           />
-          <span className="text-muted-foreground">-</span>
-          <Input
-            type="number"
-            value={priceRange[1]}
-            onChange={(e) =>
-              setPriceRange([priceRange[0], Number(e.target.value)])
-            }
-            className="w-24"
-            min={priceRange[0]}
-            placeholder={MAX_PRICE.toString()}
-          />
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <span className="text-xs text-muted-foreground">Min</span>
+              <Input
+                type="number"
+                value={priceRange[0]}
+                onChange={(e) =>
+                  setPriceRange([Number(e.target.value), priceRange[1]])
+                }
+                className="w-24 h-8"
+                placeholder="1"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-xs text-muted-foreground">Max</span>
+              <Input
+                type="number"
+                value={priceRange[1]}
+                onChange={(e) =>
+                  setPriceRange([priceRange[0], Number(e.target.value)])
+                }
+                className="w-24 h-8"
+                placeholder={maxPrice.toString()}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
