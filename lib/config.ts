@@ -1,10 +1,10 @@
 export const config = {
   // WhatsApp
   whatsappNumber: "5493415850155",
-  
+
   // Site info
-  siteName: "MateAR",
-  siteDescription: "Premium Argentinian Mate Products",
+  siteName: "Paraiso Matero",
+  siteDescription: "Productos de Mate Premium",
 }
 
 export const currency = {
@@ -28,11 +28,11 @@ export function generateWhatsAppLink(
   const intro = "Me gustaría comprar:"
   const totalText = "Total:"
   const thanks = "Muchas gracias"
-  
+
   const itemsList = items
     .map((item) => `- ${item.quantity}x ${item.name} — ${item.price}`)
     .join("\n")
-  
+
   const message = `${greeting} ${intro}
 ${itemsList}
 ${totalText} ${total}
