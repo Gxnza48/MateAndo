@@ -8,7 +8,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
@@ -76,14 +83,10 @@ export default function AdminDashboard() {
   const supabase = useMemo(() => createClient(), [])
 
   const fetchProducts = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: false })
+    const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: false })
 
     if (error) {
       console.error("Error fetching products:", error)
-      // Use fallback static products
       setDbError(true)
       const { products: fallbackProducts } = await import("@/lib/products")
       setProducts(fallbackProducts as unknown as Product[])
@@ -96,14 +99,12 @@ export default function AdminDashboard() {
     setLoading(false)
   }, [supabase])
 
-  // Check authentication
   useEffect(() => {
     async function checkUser() {
       const { data } = await supabase.auth.getSession()
       if (!data.session) {
         router.push("/gozque")
       } else {
-        // If authenticated, fetch products
         fetchProducts()
       }
     }
@@ -117,8 +118,8 @@ export default function AdminDashboard() {
           <CardHeader>
             <CardTitle className="text-destructive">Error de Configuración</CardTitle>
             <CardDescription>
-              No se han encontrado las variables de entorno de Supabase.
-              Por favor asegúrate de que el archivo .env.local existe y reinicia el servidor de desarrollo (npm run dev).
+              No se han encontrado las variables de entorno de Supabase. Por favor asegúrate de que el archivo .env.local
+              existe y reinicia el servidor de desarrollo (npm run dev).
             </CardDescription>
           </CardHeader>
         </Card>
@@ -149,9 +150,10 @@ export default function AdminDashboard() {
   async function handleSave() {
     if (!editingProduct) return
 
-    // Check if database is unavailable
     if (dbError) {
-      alert("La base de datos no está disponible. Por favor, configura Supabase correctamente para poder agregar y editar productos.")
+      alert(
+        "La base de datos no está disponible. Por favor, configura Supabase correctamente para poder agregar y editar productos."
+      )
       setSaving(false)
       return
     }
@@ -173,27 +175,24 @@ export default function AdminDashboard() {
     }
 
     if ("id" in editingProduct && editingProduct.id) {
-      // Update existing product
-      const { error } = await supabase
-        .from("products")
-        .update(productData)
-        .eq("id", editingProduct.id)
+      const { error } = await supabase.from("products").update(productData).eq("id", editingProduct.id)
 
       if (error) {
         console.error("Error updating product:", error)
-        alert(`Error actualizando producto: ${error.message}\n\nPor favor, ejecuta el script SQL en Supabase para crear la tabla 'products'.`)
+        alert(
+          `Error actualizando producto: ${error.message}\n\nPor favor, ejecuta el script SQL en Supabase para crear la tabla 'products'.`
+        )
         setSaving(false)
         return
       }
     } else {
-      // Create new product
-      const { error } = await supabase
-        .from("products")
-        .insert(productData)
+      const { error } = await supabase.from("products").insert(productData)
 
       if (error) {
         console.error("Error creating product:", error)
-        alert(`Error creando producto: ${error.message}\n\nPor favor, ejecuta el script SQL en Supabase para crear la tabla 'products'.\n\nPuedes encontrar el script en: scripts/001_create_tables.sql`)
+        alert(
+          `Error creando producto: ${error.message}\n\nPor favor, ejecuta el script SQL en Supabase para crear la tabla 'products'.\n\nPuedes encontrar el script en: scripts/001_create_tables.sql`
+        )
         setSaving(false)
         return
       }
@@ -208,10 +207,7 @@ export default function AdminDashboard() {
   async function handleDelete() {
     if (!productToDelete) return
 
-    const { error } = await supabase
-      .from("products")
-      .delete()
-      .eq("id", productToDelete.id)
+    const { error } = await supabase.from("products").delete().eq("id", productToDelete.id)
 
     if (error) {
       console.error("Error deleting product:", error)
@@ -258,10 +254,10 @@ export default function AdminDashboard() {
               Base de Datos No Configurada
             </CardTitle>
             <CardDescription>
-              La tabla de productos no existe en Supabase. Mostrando productos de ejemplo.
-              Para poder crear y editar productos, ejecuta el script SQL ubicado en{" "}
-              <code className="rounded bg-muted px-1 py-0.5 text-xs">scripts/001_create_tables.sql</code>{" "}
-              en tu proyecto de Supabase.
+              La tabla de productos no existe en Supabase. Mostrando productos de ejemplo. Para poder crear y editar
+              productos, ejecuta el script SQL ubicado en{" "}
+              <code className="rounded bg-muted px-1 py-0.5 text-xs">scripts/001_create_tables.sql</code> en tu proyecto
+              de Supabase.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -273,9 +269,7 @@ export default function AdminDashboard() {
             <Package className="h-5 w-5" />
             Productos ({products.length}) {dbError && <Badge variant="outline">Solo Lectura</Badge>}
           </CardTitle>
-          <CardDescription>
-            Lista de todos los productos disponibles en la tienda
-          </CardDescription>
+          <CardDescription>Lista de todos los productos disponibles en la tienda</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -295,7 +289,9 @@ export default function AdminDashboard() {
                 <TableRow key={product.id}>
                   <TableCell className="font-medium">{product.name_es}</TableCell>
                   <TableCell>
-                    <Badge variant="secondary" className="capitalize">{product.category}</Badge>
+                    <Badge variant="secondary" className="capitalize">
+                      {product.category}
+                    </Badge>
                   </TableCell>
                   <TableCell className="font-semibold">${product.price_ars.toLocaleString("es-AR")}</TableCell>
                   <TableCell>{product.stock}</TableCell>
@@ -304,9 +300,7 @@ export default function AdminDashboard() {
                       {product.in_stock ? "En stock" : "Sin stock"}
                     </Badge>
                   </TableCell>
-                  <TableCell>
-                    {product.featured && <Badge variant="outline">Destacado</Badge>}
-                  </TableCell>
+                  <TableCell>{product.featured && <Badge variant="outline">Destacado</Badge>}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button
@@ -341,10 +335,9 @@ export default function AdminDashboard() {
             <DialogTitle>
               {editingProduct && "id" in editingProduct ? "Editar Producto" : "Nuevo Producto"}
             </DialogTitle>
-            <DialogDescription>
-              Complete los campos para guardar el producto
-            </DialogDescription>
+            <DialogDescription>Complete los campos para guardar el producto</DialogDescription>
           </DialogHeader>
+
           {editingProduct && (
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-2 gap-4">
@@ -357,6 +350,7 @@ export default function AdminDashboard() {
                     placeholder="mate-imperial"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="category">Categoria</Label>
                   <Select
@@ -401,14 +395,25 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="price_ars">Precio (ARS)</Label>
+
+                  {/* FIX: ahora es texto (más cómodo), pero seguimos guardando un número */}
                   <Input
                     id="price_ars"
-                    type="number"
-                    value={editingProduct.price_ars || 0}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, price_ars: Number(e.target.value) })}
+                    type="text"
+                    inputMode="numeric"
+                    value={editingProduct.price_ars?.toString() ?? ""}
+                    onChange={(e) => {
+                      const raw = e.target.value
+                      const cleaned = raw.replace(/[^\d]/g, "")
+                      setEditingProduct({
+                        ...editingProduct,
+                        price_ars: cleaned === "" ? 0 : Number(cleaned),
+                      })
+                    }}
                     placeholder="15000"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="stock">Stock</Label>
                   <Input
@@ -419,6 +424,7 @@ export default function AdminDashboard() {
                     placeholder="10"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="material">Material</Label>
                   <Select
@@ -473,6 +479,7 @@ export default function AdminDashboard() {
                   />
                   <Label htmlFor="featured">Producto Destacado</Label>
                 </div>
+
                 <div className="flex items-center gap-2">
                   <Switch
                     id="in_stock"
@@ -484,6 +491,7 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)} className="bg-transparent">
               Cancelar
@@ -508,7 +516,8 @@ export default function AdminDashboard() {
           <DialogHeader>
             <DialogTitle>Confirmar Eliminacion</DialogTitle>
             <DialogDescription>
-              Estas seguro de que deseas eliminar el producto &quot;{productToDelete?.name_es}&quot;? Esta accion no se puede deshacer.
+              Estas seguro de que deseas eliminar el producto &quot;{productToDelete?.name_es}&quot;? Esta accion no se
+              puede deshacer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
