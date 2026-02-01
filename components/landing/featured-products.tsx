@@ -5,27 +5,9 @@ import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/product-card"
-import { useStore } from "@/contexts/store-context"
-// import { products } from "@/lib/products" // Removed static import
-
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ProductCard } from "@/components/product-card"
 import { createClient } from "@/lib/supabase/client"
 import { normalizeProduct, products as fallbackProducts } from "@/lib/products"
-import { useStore } from "@/contexts/store-context" // Keep for translations if needed, but this is a server component now preferably? 
-// No, FeaturedProducts is imported in `app/page.tsx` which is Server, but this file has "use client" at top.
-// If we want it to be dynamic, we should make it a Server Component or fetch inside useEffect.
-// Since User wants "live" updates and landing page might be static, fetching in useEffect is safer for "live" feel without full revalidation logic complexity.
-// However, fetching in "use client" causes layout shift. 
-// A better approach for "landing page" is Server Component. 
-// But `motion` (framer-motion) requires "use client".
-// So we fetch efficiently using SWR or useEffect.
-
-// Let's use useEffect to ensure it respects the DB state "right now".
-
+import { useStore } from "@/contexts/store-context"
 import { useEffect, useState } from "react"
 import { Product } from "@/lib/types"
 
